@@ -1,14 +1,15 @@
 import React from 'react'
 import { envVars } from './envVars'
+import './Map.css'
 
 function Map( props ) {
     return (
-        <div>
+        <div className='Map'>
             {props.map.map((tile, key) => {
                 if (key === props.playerX + envVars.WIDTH * props.playerY) {
-                    return (<span key={key}> @ </span>)
+                    return (<div key={key}> @ </div>)
                 }
-                else return (<span key={key}>{tile}</span>)
+                else return (<div key={key}>{tile}</div>)
             })}
         </div>
     )

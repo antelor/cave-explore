@@ -6,7 +6,7 @@ class App extends Component {
     super(props);
     this.state = {
       playerX : 1,
-      playerY : 0,
+      playerY : 1,
       mapArray :
       ['#', '#', '#', '#',
        '#', '.', '.', '#',
