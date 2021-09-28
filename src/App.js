@@ -20,25 +20,27 @@ class App extends Component {
 
   handleMovement = (event) => {
     let newState = this.state;
+    let playerCoord = this.state.playerX + envVars.WIDTH * this.state.playerY;
+
     switch (event.keyCode) {
       //left
       case 37:
-        if( newState.playerX % envVars.WIDTH != 0 ) newState.playerX--;
+        if( newState.playerX % envVars.WIDTH != 0  && this.state.mapArray[playerCoord-1] != '#' ) newState.playerX--;
         break;
       
       //up
       case 38:
-        if( newState.playerY % envVars.HEIGHT != 0 ) newState.playerY--;
+        if( newState.playerY % envVars.HEIGHT != 0  && this.state.mapArray[playerCoord-envVars.WIDTH]!='#') newState.playerY--;
         break;
       
       //right
       case 39:
-        if( (newState.playerX + 1) % envVars.WIDTH != 0 ) newState.playerX++;
+        if( (newState.playerX + 1) % envVars.WIDTH != 0  && this.state.mapArray[playerCoord+1] != '#' ) newState.playerX++;
         break;
       
       //down
       case 40:
-        if( (newState.playerY + 1) % envVars.HEIGHT!= 0 ) newState.playerY++;
+        if( (newState.playerY + 1) % envVars.HEIGHT!= 0  && this.state.mapArray[playerCoord+envVars.WIDTH]!='#' ) newState.playerY++;
         break;
     }
 
