@@ -1,4 +1,4 @@
 export const envVars = {
     WIDTH: 4,
-    HEIGHT: 4
+    HEIGHT: 5
 }
