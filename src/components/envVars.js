@@ -1,5 +1,5 @@
 export const envVars = {
-    WIDTH: 80,
-    HEIGHT: 25,
+    WIDTH: 50,
+    HEIGHT: 16,
     alivePerc: 45
 }

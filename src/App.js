@@ -22,22 +22,46 @@ class App extends Component {
     switch (event.keyCode) {
       //left
       case 37:
-        if( newState.playerX % envVars.WIDTH !== 0  && this.state.mapArray[playerY][playerX-1] !== '#' ) newState.playerX--;
+        //si se puede caminar y no esta contra un borde, moverse
+        if (newState.playerX % envVars.WIDTH !== 0 && this.state.mapArray[playerY][playerX - 1] !== '#') newState.playerX--;
+        //si esta contra un borde, recrear mapa
+        else if (newState.playerX === 0) {
+          this.mapCreate();
+          newState.playerX = envVars.WIDTH - 1;
+        }
         break;
       
       //up
       case 38:
+        //si se puede caminar y no esta contra un borde, moverse
         if( newState.playerY % envVars.HEIGHT !== 0  && this.state.mapArray[playerY-1][playerX]!=='#') newState.playerY--;
+        //si esta contra un borde, recrear mapa
+        else if (newState.playerY === 0) {
+          this.mapCreate();
+          newState.playerY = envVars.HEIGHT - 1;
+        }
         break;
       
       //right
       case 39:
+        //si se puede caminar y no esta contra un borde, moverse
         if( (newState.playerX + 1) % envVars.WIDTH !== 0  && this.state.mapArray[playerY][playerX+1] !== '#' ) newState.playerX++;
+        //si esta contra un borde, recrear mapa
+        else if (newState.playerX === envVars.WIDTH-1) {
+          this.mapCreate();
+          newState.playerX = 0;
+        }
         break;
       
       //down
       case 40:
+        //si se puede caminar y no esta contra un borde, moverse
         if( (newState.playerY + 1) % envVars.HEIGHT!== 0  && this.state.mapArray[playerY+1][playerX]!=='#' ) newState.playerY++;
+        //si esta contra un borde, recrear mapa
+        else if (newState.playerY === envVars.HEIGHT-1) {
+          this.mapCreate();
+          newState.playerY = 0;
+        }
         break;
       
       default:

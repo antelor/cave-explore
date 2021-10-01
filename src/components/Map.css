@@ -1,9 +1,12 @@
 .Map{
     display: grid;
-    grid-template-columns: repeat(80, 1fr);
-    grid-template-rows: repeat(25, 1fr);
-    width: 1000px;
-    font-size: 50px;
+    grid-template-columns: repeat(50, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    font-size: 40px;
+    width: 100%;
+    justify-content: space-between;
+    color:white;
+    background-color:black;
 }
 
 .tile{
@@ -12,5 +15,9 @@
 }
 
 .player{
-    font-size: 40px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    background-color:red;
+    color:white;
 }
