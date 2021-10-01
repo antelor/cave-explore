@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/cave-explore/static/css/main.fa8c9304.chunk.css",
+    "main.js": "/cave-explore/static/js/main.3e7cc750.chunk.js",
+    "main.js.map": "/cave-explore/static/js/main.3e7cc750.chunk.js.map",
+    "runtime-main.js": "/cave-explore/static/js/runtime-main.7b912f07.js",
+    "runtime-main.js.map": "/cave-explore/static/js/runtime-main.7b912f07.js.map",
+    "static/js/2.f4be66f3.chunk.js": "/cave-explore/static/js/2.f4be66f3.chunk.js",
+    "static/js/2.f4be66f3.chunk.js.map": "/cave-explore/static/js/2.f4be66f3.chunk.js.map",
+    "index.html": "/cave-explore/index.html",
+    "static/css/main.fa8c9304.chunk.css.map": "/cave-explore/static/css/main.fa8c9304.chunk.css.map",
+    "static/js/2.f4be66f3.chunk.js.LICENSE.txt": "/cave-explore/static/js/2.f4be66f3.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b912f07.js",
+    "static/js/2.f4be66f3.chunk.js",
+    "static/css/main.fa8c9304.chunk.css",
+    "static/js/main.3e7cc750.chunk.js"
+  ]
+}

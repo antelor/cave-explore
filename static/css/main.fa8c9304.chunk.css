@@ -1,0 +1,2 @@
+.Map{display:grid;grid-template-columns:repeat(50,1fr);grid-template-rows:repeat(16,1fr);font-size:40px;width:100%;justify-content:space-between;color:#fff;background-color:#000}.player,.tile{display:flex;justify-content:center}.player{font-size:30px;background-color:red;color:#fff}:root{background-color:#000}
+/*# sourceMappingURL=main.fa8c9304.chunk.css.map */
