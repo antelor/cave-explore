@@ -1,16 +1,18 @@
 import React from 'react'
-import { envVars } from './envVars'
 import './Map.css'
 
 function Map( props ) {
     return (
         <div className='Map'>
-            {props.map.map((tile, key) => {
-                if (key === props.playerX + envVars.WIDTH * props.playerY) {
-                    return (<div key={key}> @ </div>)
-                }
-                else return (<div key={key}>{tile}</div>)
-            })}
+            {props.map.map((row, keyRow) => {
+                return row.map( (tile, index) => { 
+                    if (keyRow === props.playerY && index === props.playerX) {
+                        return (<div key={index + '-' + keyRow} className="tile player"> @ </div>)
+                    }
+                    else return (<div key={index + '-' + keyRow} className="tile">{tile}</div>)              
+                })
+            }
+            )}
         </div>
     )
 }

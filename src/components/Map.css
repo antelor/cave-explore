@@ -1,7 +1,16 @@
 .Map{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(80, 1fr);
+    grid-template-rows: repeat(25, 1fr);
     width: 1000px;
-    font-size: 100px;
+    font-size: 50px;
+}
+
+.tile{
+    display: flex;
+    justify-content: center;
+}
+
+.player{
+    font-size: 40px;
 }
