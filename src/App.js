@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { envVars } from './components/envVars'
 import Map from './components/Map'
+import './App.css'
 
 class App extends Component {
   constructor(props) {
@@ -97,6 +98,11 @@ class App extends Component {
     //set new map in state
     let newState = this.state;
     newState.mapArray = newMap;
+
+    //making whichever tile the player is on a floor tile
+    newState.mapArray[this.state.playerY][this.state.playerX] = '.';
+
+    //update state
     this.setState(newState);
   }
 
@@ -215,7 +221,7 @@ class App extends Component {
 
   render() {
     return(
-      <div>
+      <div className="App">
         <Map map={this.state.mapArray} playerX={this.state.playerX} playerY={this.state.playerY} />
       </div>
     )
