@@ -33,8 +33,6 @@ function App(this: any) {
     let newPlayerX = playerXRef.current;
     let newPlayerY = playerYRef.current;
     let newMap = mapArrayRef.current;
-
-    console.log(newPlayerX + ' ' + newPlayerY)
     
     switch (event.keyCode) {
       //left
