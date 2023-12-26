@@ -7,7 +7,7 @@ import './App.css';
 function App(this: any) {
   const [playerX, _setPlayerX] = useState(4);
   const [playerY, _setPlayerY] = useState(4);
-  const [mapArray, _setMapArray] = useState(mapCreate());
+  const [mapArray, _setMapArray] = useState(firstMapCreate());
 
   //setting the refs to handle movement using latest state
   //https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
@@ -33,50 +33,56 @@ function App(this: any) {
     let newPlayerX = playerXRef.current;
     let newPlayerY = playerYRef.current;
     let newMap = mapArrayRef.current;
+
+    console.log(newPlayerX + ' ' + newPlayerY)
     
     switch (event.keyCode) {
       //left
       case 37:
-        //si se puede caminar y no esta contra un borde, moverse
-        if (newMap[newPlayerY][newPlayerX - 1] !== '#') newPlayerX--;
-        //si esta contra un borde, recrear mapa
-        /*else if (newPlayerX === 0) {
+        //if against map border, recreate map
+        if (newPlayerX === 0) {
           newMap = mapCreate();
-          newPlayerX = envVars.WIDTH - 1;
-        }*/
+          newPlayerX = envVars.WIDTH-1;
+          break;
+        }
+        //if walkable and not againt wall move
+        if (newMap[newPlayerY][newPlayerX - 1] !== '#') newPlayerX--;
         break;
       
       //up
       case 38:
-        //si se puede caminar y no esta contra un borde, moverse
-        if(newMap[newPlayerY-1][newPlayerX]!=='#') newPlayerY--;
-        //si esta contra un borde, recrear mapa
-        /*else if (newPlayerY === 0) {
+        //if against map border, recreate map
+        if (newPlayerY === 0) {
           newMap = mapCreate();
-          newPlayerY = envVars.HEIGHT - 1;
-        }*/
+          newPlayerY = envVars.HEIGHT-1;
+          break;
+        }
+        //if walkable and not againt wall move
+        if(newMap[newPlayerY-1][newPlayerX]!=='#') newPlayerY--;
         break;
       
       //right
       case 39:
-        //si se puede caminar y no esta contra un borde, moverse
-        if(newMap[newPlayerY][newPlayerX+1] !== '#' ) newPlayerX++;
-        //si esta contra un borde, recrear mapa
-        /*else if (newPlayerX === envVars.WIDTH-1) {
+        //if against map border, recreate map
+        if (newPlayerX === envVars.WIDTH-1) {
           newMap = mapCreate();
           newPlayerX = 0;
-        }*/
+          break;
+        }
+        //if walkable and not againt wall move
+        if(newMap[newPlayerY][newPlayerX+1] !== '#') newPlayerX++;
         break;
       
       //down
       case 40:
-        //si se puede caminar y no esta contra un borde, moverse
-        if(newMap[newPlayerY+1][newPlayerX]!=='#' ) newPlayerY++;
-        //si esta contra un borde, recrear mapa
-        /*else if (newPlayerY === envVars.HEIGHT-1) {
+        //if against map border, recreate map
+        if (newPlayerY === envVars.HEIGHT-1) {
           newMap = mapCreate();
           newPlayerY = 0;
-        }*/
+          break;
+        }
+        //if walkable and not againt wall move
+        if(newMap[newPlayerY+1][newPlayerX]!=='#' ) newPlayerY++;
         break;
       
       default:
@@ -89,6 +95,15 @@ function App(this: any) {
     setPlayerX(newPlayerX);
     setPlayerY(newPlayerY);
     setMapArray(newMap);
+  }
+
+  function firstMapCreate(){
+    let newMap = mapCreate();
+
+    //making whichever tile the player is on a floor tile
+    newMap[playerY][playerX] = '@';
+
+    return newMap;
   }
 
   //map handler
@@ -113,9 +128,6 @@ function App(this: any) {
       let conwayMap = conway(newMap);
       newMap = conwayMap;
     }
-
-    //making whichever tile the player is on a floor tile
-    newMap[playerY][playerX] = '@';
     
     return newMap;
   }
