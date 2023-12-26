@@ -1,0 +1,1 @@
+.Map{display:grid;grid-template-columns:repeat(50,1fr);grid-template-rows:repeat(16,1fr);width:100%;justify-content:space-between;color:#fff;background-color:#000}.tile{font-size:4vh;display:flex;justify-content:center}.player{display:flex;justify-content:center;background-color:red;color:#fff}:root{background-color:#000;color:#fff}
