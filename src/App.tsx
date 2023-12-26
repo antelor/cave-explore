@@ -1,88 +1,107 @@
-import React, { Component } from 'react'
-import { envVars } from './components/envVars'
-import Map from './components/Map'
-import './App.css'
+import React, { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { envVars } from './components/envVars';
+import Map from './components/Map';
+import './App.css';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      playerX: 2,
-      playerY: 2,
-      mapArray:
-        [ [] ]
-    };
+function App(this: any) {
+  const [playerX, _setPlayerX] = useState(4);
+  const [playerY, _setPlayerY] = useState(4);
+  const [mapArray, _setMapArray] = useState(mapCreate());
 
-  }
+  //setting the refs to handle movement using latest state
+  //https://medium.com/geographit/accessing-react-state-in-event-listeners-with-usestate-and-useref-hooks-8cceee73c559
+  const mapArrayRef = React.useRef(mapArray);
+  function setMapArray (data: Array<string[]>){
+    mapArrayRef.current = data;
+    _setMapArray(data);
+  };
 
-  handleMovement = (event) => {
-    let newState = this.state;
-    let playerX = this.state.playerX;
-    let playerY = this.state.playerY;
+  const playerYRef = React.useRef(playerY);
+  function setPlayerY (data: number){
+    playerYRef.current = data;
+    _setPlayerY(data);
+  };
+
+  const playerXRef = React.useRef(playerX);
+  function setPlayerX (data: number){
+    playerXRef.current = data;
+    _setPlayerX(data);
+  };
+  
+  function handleMovement(event: any){    
+    let newPlayerX = playerXRef.current;
+    let newPlayerY = playerYRef.current;
+    let newMap = mapArrayRef.current;
     
     switch (event.keyCode) {
       //left
       case 37:
         //si se puede caminar y no esta contra un borde, moverse
-        if (newState.playerX % envVars.WIDTH !== 0 && this.state.mapArray[playerY][playerX - 1] !== '#') newState.playerX--;
+        if (newMap[newPlayerY][newPlayerX - 1] !== '#') newPlayerX--;
         //si esta contra un borde, recrear mapa
-        else if (newState.playerX === 0) {
-          this.mapCreate();
-          newState.playerX = envVars.WIDTH - 1;
-        }
+        /*else if (newPlayerX === 0) {
+          newMap = mapCreate();
+          newPlayerX = envVars.WIDTH - 1;
+        }*/
         break;
       
       //up
       case 38:
         //si se puede caminar y no esta contra un borde, moverse
-        if( newState.playerY % envVars.HEIGHT !== 0  && this.state.mapArray[playerY-1][playerX]!=='#') newState.playerY--;
+        if(newMap[newPlayerY-1][newPlayerX]!=='#') newPlayerY--;
         //si esta contra un borde, recrear mapa
-        else if (newState.playerY === 0) {
-          this.mapCreate();
-          newState.playerY = envVars.HEIGHT - 1;
-        }
+        /*else if (newPlayerY === 0) {
+          newMap = mapCreate();
+          newPlayerY = envVars.HEIGHT - 1;
+        }*/
         break;
       
       //right
       case 39:
         //si se puede caminar y no esta contra un borde, moverse
-        if( (newState.playerX + 1) % envVars.WIDTH !== 0  && this.state.mapArray[playerY][playerX+1] !== '#' ) newState.playerX++;
+        if(newMap[newPlayerY][newPlayerX+1] !== '#' ) newPlayerX++;
         //si esta contra un borde, recrear mapa
-        else if (newState.playerX === envVars.WIDTH-1) {
-          this.mapCreate();
-          newState.playerX = 0;
-        }
+        /*else if (newPlayerX === envVars.WIDTH-1) {
+          newMap = mapCreate();
+          newPlayerX = 0;
+        }*/
         break;
       
       //down
       case 40:
         //si se puede caminar y no esta contra un borde, moverse
-        if( (newState.playerY + 1) % envVars.HEIGHT!== 0  && this.state.mapArray[playerY+1][playerX]!=='#' ) newState.playerY++;
+        if(newMap[newPlayerY+1][newPlayerX]!=='#' ) newPlayerY++;
         //si esta contra un borde, recrear mapa
-        else if (newState.playerY === envVars.HEIGHT-1) {
-          this.mapCreate();
-          newState.playerY = 0;
-        }
+        /*else if (newPlayerY === envVars.HEIGHT-1) {
+          newMap = mapCreate();
+          newPlayerY = 0;
+        }*/
         break;
       
       default:
         break;
     }
-
-    this.setState(newState);
+    
+    newMap[playerYRef.current][playerXRef.current]='.';
+    newMap[newPlayerY][newPlayerX]='@';
+    
+    setPlayerX(newPlayerX);
+    setPlayerY(newPlayerY);
+    setMapArray(newMap);
   }
 
   //map handler
-  mapCreate = () => {
+  function mapCreate(){
     let newMap = [];
     //populate with random values
     for (let i = 0; i < envVars.HEIGHT; i++){
       let newRow = [];
       for (let j = 0; j < envVars.WIDTH; j++){
-        let newTile = Math.floor(Math.random() * 100);
-        console.log(newTile);
-        if (newTile <= envVars.alivePerc) newTile = '#';
-        if (newTile > envVars.alivePerc) newTile = '.';
+        let newTile = '';
+        let rand = Math.floor(Math.random() * 100);
+        if (rand <= envVars.alivePerc) newTile = '#';
+        if (rand > envVars.alivePerc) newTile = '.';
   
         newRow.push(newTile);
       }
@@ -91,23 +110,18 @@ class App extends Component {
     
     //conway
     for (let turns = 0; turns < 10; turns++){
-      let conwayMap = this.conway(newMap);
+      let conwayMap = conway(newMap);
       newMap = conwayMap;
     }
-    
-    //set new map in state
-    let newState = this.state;
-    newState.mapArray = newMap;
 
     //making whichever tile the player is on a floor tile
-    newState.mapArray[this.state.playerY][this.state.playerX] = '.';
-
-    //update state
-    this.setState(newState);
+    newMap[playerY][playerX] = '@';
+    
+    return newMap;
   }
 
   //contador de vecinos para conway
-  checkNeighbors = (map, tileX, tileY) => {
+  function checkNeighbors(map: string[][], tileX: number, tileY: number){
     //indice actual = tileX + tileY * WIDTH
 
     let neighborCount = 0;
@@ -180,7 +194,7 @@ class App extends Component {
     return neighborCount;
   }
 
-  conway = (map) => {
+  function conway(map: string[][]){
     let newMap = [];
 
     for (let y = 0; y < envVars.HEIGHT; y++) {
@@ -188,7 +202,7 @@ class App extends Component {
 
       for (let x = 0; x < envVars.WIDTH; x++){
         //console.log(y + "y "+[x] + "x:");
-        let neighbors = this.checkNeighbors(map, x, y);
+        let neighbors = checkNeighbors(map, x, y);
         //let neighbors = 0;
         
         //B678/S345678 is the cellular automaton rule where a cell is born if it has 6,7,8 living neighbors,
@@ -213,20 +227,15 @@ class App extends Component {
     return newMap;
   }
 
+  useEffect(()=>{
+    window.addEventListener('keydown', handleMovement);
+  }, []);
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleMovement);
-    this.mapCreate();
-  }
-
-  render() {
-    return(
-      <div className="App">
-        <Map map={this.state.mapArray} playerX={this.state.playerX} playerY={this.state.playerY} />
-      </div>
-    )
-  
-  }
+  return( 
+    <div className="App">
+      <Map map={mapArray} playerX={playerX} playerY={playerY} />
+    </div>
+  )
       
 }
 
